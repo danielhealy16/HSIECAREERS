@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career → HSIE Subject Pathways</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #F7F4EE;
+  --ink: #1C1A16;
+  --ink-muted: #6B6860;
+  --ink-faint: #B0ADA6;
+  --border: #E0DDD6;
+  --white: #FFFFFF;
+  --gold: #D4A853;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--cream); color: var(--ink); min-height: 100vh; line-height: 1.6; }
+
+/* ─── Header ─── */
+header {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 3.5rem 2rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 41px);
+}
+header .tag {
+  display: inline-block;
+  font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-faint);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px; padding: 5px 16px; margin-bottom: 1.2rem;
+}
+header h1 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700; line-height: 1.15; margin-bottom: 0.8rem; letter-spacing: -0.01em;
+}
+header h1 em { font-style: italic; color: var(--gold); }
+header p { font-size: 15px; color: var(--ink-faint); max-width: 540px; margin: 0 auto; font-weight: 300; }
+header .stats {
+  display: flex; justify-content: center; gap: 2.5rem;
+  margin-top: 2.5rem; padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+header .stat-num { display: block; font-family: var(--serif); font-size: 2rem; font-weight: 600; color: var(--gold); line-height: 1; }
+header .stat-label { font-size: 11px; color: var(--ink-faint); letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; display: block; }
+
+/* ─── Filter bar ─── */
+.filter-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 1.5rem;
+  position: sticky; top: 0; z-index: 10;
+}
+.filter-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.filter-label { font-size: 12px; color: var(--ink-muted); font-weight: 500; white-space: nowrap; }
+.filter-btn {
+  font-size: 12px; font-family: var(--sans);
+  padding: 5px 14px; border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--cream); color: var(--ink-muted);
+  cursor: pointer; transition: all .15s;
+  white-space: nowrap;
+}
+.filter-btn:hover { border-color: #C8C4BB; color: var(--ink); }
+.filter-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.search-wrap { margin-left: auto; position: relative; }
+.search-wrap input {
+  font-family: var(--sans); font-size: 13px;
+  padding: 6px 12px 6px 32px;
+  border: 1px solid var(--border); border-radius: 20px;
+  background: var(--cream); color: var(--ink);
+  outline: none; width: 200px;
+  transition: border-color .15s, width .2s;
+}
+.search-wrap input:focus { border-color: #C8C4BB; width: 240px; }
+.search-wrap .search-icon {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  font-size: 14px; color: var(--ink-faint); pointer-events: none;
+}
+
+/* ─── Main ─── */
+main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+.careers-count { font-size: 13px; color: var(--ink-muted); margin-bottom: 1.25rem; }
+.careers-count strong { color: var(--ink); }
+
+/* ─── Career Cards Grid ─── */
+.careers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.career-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 18px 14px;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s, border-color .15s;
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.career-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.09);
+  border-color: #C8C4BB;
+}
+.career-card:active { transform: translateY(0); }
+.career-card.active {
+  border-width: 2px;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+.career-card.hidden { display: none; }
+
+.card-sector {
+  font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+}
+.sector-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.card-title {
+  font-family: var(--serif);
+  font-size: 1.05rem; font-weight: 600; line-height: 1.25;
+  margin-bottom: 6px; color: var(--ink);
+}
+.card-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.5; flex: 1; }
+.card-subjects {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin-top: 12px; padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.subj-tag {
+  font-size: 10px; padding: 2px 8px; border-radius: 10px;
+  border: 1px solid; font-weight: 400;
+}
+.card-arrow {
+  position: absolute; top: 16px; right: 16px;
+  font-size: 16px; color: var(--ink-faint);
+  transition: transform .15s, color .15s;
+}
+.career-card:hover .card-arrow { transform: translate(2px,-2px); color: var(--ink-muted); }
+.career-card.active .card-arrow { transform: rotate(90deg); color: var(--ink); }
+
+/* ─── Detail Panel ─── */
+.detail-panel {
+  display: none;
+  margin: 0 0 1.5rem;
+  animation: slideDown .22s ease;
+}
+.detail-panel.open { display: block; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.detail-inner {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.detail-hero {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 1.75rem 2rem;
+  display: flex; align-items: flex-start; gap: 16px;
+}
+.hero-icon { font-size: 2.2rem; flex-shrink: 0; line-height: 1; }
+.hero-sector { font-size: 11px; color: var(--ink-faint); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+.hero-title { font-family: var(--serif); font-size: 1.6rem; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
+.hero-desc { font-size: 13px; color: var(--ink-faint); font-weight: 300; line-height: 1.6; }
+
+.detail-body { padding: 1.75rem 2rem; }
+
+.section-heading {
+  font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 1.5rem 0 10px;
+}
+.section-heading:first-child { margin-top: 0; }
+
+/* Subject justification cards */
+.subject-justification {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.sj-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.sj-icon { font-size: 1.4rem; }
+.sj-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+.sj-priority {
+  margin-left: auto; font-size: 10px; padding: 3px 10px;
+  border-radius: 10px; font-weight: 500; white-space: nowrap;
+}
+.sj-body { padding: 14px 16px; }
+
+.sj-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+@media (max-width: 600px) { .sj-row { grid-template-columns: 1fr; } }
+
+.sj-box { background: var(--cream); border-radius: 6px; padding: 10px 12px; }
+.sj-box-label { font-size: 10px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 5px; }
+.sj-box-text { font-size: 12px; color: var(--ink-muted); line-height: 1.55; }
+
+.syllabus-quote {
+  background: var(--cream);
+  border-left: 3px solid;
+  border-radius: 0 6px 6px 0;
+  padding: 10px 14px;
+  font-size: 12px; color: var(--ink-muted);
+  line-height: 1.6; font-style: italic;
+}
+.syllabus-quote strong { font-style: normal; font-weight: 500; color: var(--ink); display: block; margin-bottom: 4px; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+
+.skills-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.skill-chip {
+  font-size: 11px; padding: 3px 10px; border-radius: 10px;
+  border: 1px solid; font-weight: 400; line-height: 1.5;
+}
+
+/* Uni pathway */
+.uni-pathway {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.uni-pathway .arrow-wrap { font-size: 1.3rem; margin-top: 2px; }
+.uni-path-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+.uni-path-sub { font-size: 12px; color: var(--ink-muted); line-height: 1.5; }
+
+.close-btn {
+  display: block; margin: 1.5rem auto 0;
+  background: none; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 8px 24px;
+  font-size: 13px; font-family: var(--sans); color: var(--ink-muted);
+  cursor: pointer; transition: background .15s;
+}
+.close-btn:hover { background: var(--cream); }
+
+/* No results */
+.no-results { text-align: center; padding: 3rem 1rem; color: var(--ink-muted); }
+.no-results p { font-size: 15px; }
+
+/* Footer */
+footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--ink-faint); border-top: 1px solid var(--border); }
+
+@media (max-width: 600px) {
+  header { padding: 2.5rem 1.25rem 2rem; }
+  header .stats { gap: 1.5rem; }
+  main { padding: 1.5rem 1rem 3rem; }
+  .filter-inner { gap: 7px; }
+  .search-wrap input { width: 150px; }
+  .search-wrap input:focus { width: 170px; }
+  .detail-hero { padding: 1.25rem; }
+  .detail-body { padding: 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="tag">NSW Senior Education · HSIE</span>
+  <h1>Find your <em>career</em>,<br>discover your subjects</h1>
+  <p>Click on any career that interests you to see which HSIE senior subjects will help you get there — with justification linked directly to the NSW syllabus</p>
+  <div class="stats">
+    <div class="stat-item"><span class="stat-num">44</span><span class="stat-label">Careers</span></div>
+    <div class="stat-item"><span class="stat-num">10</span><span class="stat-label">HSIE Subjects</span></div>
+    <div class="stat-item"><span class="stat-num">11</span><span class="stat-label">Sectors</span></div>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <div class="filter-inner">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-btn active" onclick="setFilter('all', this)">All careers</button>
+    <button class="filter-btn" onclick="setFilter('Law & Justice', this)">Law & Justice</button>
+    <button class="filter-btn" onclick="setFilter('Business & Finance', this)">Business</button>
+    <button class="filter-btn" onclick="setFilter('Environment & Science', this)">Environment</button>
+    <button class="filter-btn" onclick="setFilter('History & Culture', this)">History & Culture</button>
+    <button class="filter-btn" onclick="setFilter('Social & Community', this)">Social & Community</button>
+    <button class="filter-btn" onclick="setFilter('Media & Communication', this)">Media & Comms</button>
+    <button class="filter-btn" onclick="setFilter('Education & Research', this)">Education</button>
+    <button class="filter-btn" onclick="setFilter('Health & Wellbeing', this)">Health</button>
+    <button class="filter-btn" onclick="setFilter('Aviation & Travel', this)">Aviation & Travel</button>
+    <button class="filter-btn" onclick="setFilter('Technology & Trades', this)">Technology & Trades</button>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Search careers…" oninput="doSearch(this.value)" aria-label="Search careers">
+    </div>
+  </div>
+</div>
+
+<main>
+  <p class="careers-count" id="careers-count">Showing <strong>all careers</strong> — click any card to explore</p>
+  <div id="detail-panel" class="detail-panel"></div>
+  <div class="careers-grid" id="careers-grid"></div>
+  <div class="no-results" id="no-results" style="display:none;">
+    <p>No careers match your search. Try a different term.</p>
+  </div>
+</main>
+
+<footer>
+  <p>HSIE Career Pathways · NSW Curriculum · Syllabus references: NESA Board of Studies · For educational use</p>
+</footer>
+
+<script>
+// Colour palette per subject
+const subjectMeta = {
+  "Business Studies":      { color: "#3B8BD4", bg: "#E6F1FB", text: "#0C447C", icon: "💼" },
+  "Modern History":        { color: "#D85A30", bg: "#FAECE7", text: "#712B13", icon: "📰" },
+  "Ancient History":       { color: "#BA7517", bg: "#FAEEDA", text: "#633806", icon: "🏛️" },
+  "Geography":             { color: "#3B6D11", bg: "#EAF3DE", text: "#27500A", icon: "🌏" },
+  "Aboriginal Studies":    { color: "#993C1D", bg: "#FAECE7", text: "#4A1B0C", icon: "🪃" },
+  "Legal Studies":         { color: "#534AB7", bg: "#EEEDFE", text: "#26215C", icon: "⚖️" },
+  "Studies of Religion":   { color: "#3B6D11", bg: "#EAF3DE", text: "#27500A", icon: "🕊️" },
+  "Society & Culture":     { color: "#D4537E", bg: "#FBEAF0", text: "#4B1528", icon: "🧭" },
+  "Economics":             { color: "#0F6E56", bg: "#E1F5EE", text: "#04342C", icon: "📈" },
+  "History Extension":     { color: "#5F5E5A", bg: "#F1EFE8", text: "#2C2C2A", icon: "📚" },
+};
+
+const sectorColors = {
+  "Law & Justice":          "#534AB7",
+  "Business & Finance":     "#3B8BD4",
+  "Environment & Science":  "#3B6D11",
+  "History & Culture":      "#BA7517",
+  "Social & Community":     "#993C1D",
+  "Media & Communication":  "#D85A30",
+  "Education & Research":   "#5F5E5A",
+  "Health & Wellbeing":     "#D4537E",
+  "Aviation & Travel":      "#0891B2",
+  "Technology & Trades":    "#7C3AED",
+};
+
+const careers = [
+  // ── LAW & JUSTICE ──────────────────────────────────────────
+  {
+    id: "solicitor",
+    title: "Solicitor / Barrister",
+    sector: "Law & Justice",
+    icon: "⚖️",
+    desc: "Advise clients, draft legal documents, represent parties in court across criminal, civil or corporate law.",
+    uniPath: "Bachelor of Laws (LLB) or Juris Doctor (JD) · 4–5 years · Practical Legal Training required",
+    subjects: [
+      {
+        name: "Legal Studies",
+        priority: "Essential",
+        syllabusTopics: "Crime · Rights and responsibilities · The individual and technology · International human rights law",
+        syllabusJustification: "The Legal Studies syllabus (NESA, 2009) requires students to 'examine the nature of the legal system and evaluate its effectiveness in achieving justice'. Students analyse legislation, case law and the adversarial system — directly mirroring daily legal practice.",
+        skills: ["Legal reasoning", "Case analysis", "Statutory interpretation", "Persuasive argument", "Ethical analysis"],
+      },
+      {
+        name: "Modern History",
+        priority: "Highly Recommended",
+        syllabusTopics: "Peace & conflict · Powers and authority · World order",
+        syllabusJustification: "Modern History develops the ability to 'analyse and evaluate the nature and significance of historical forces' (NESA). Understanding how legal precedents emerge from historical events and political change is fundamental to practising law, particularly in human rights and public law.",
+        skills: ["Source analysis", "Argument construction", "Critical evaluation"],
+      },
+      {
+        name: "History Extension",
+        priority: "Recommended",
+        syllabusTopics: "Nature of history · Schools of historical thought · History project",
+        syllabusJustification: "History Extension (NESA) demands 'sustained, independent analysis of complex historical problems'. The thesis-driven research skills and ability to evaluate competing arguments are directly transferable to constructing legal submissions and appellate advocacy.",
+        skills: ["Thesis development", "Extended writing", "Philosophical reasoning"],
+      },
+    ]
+  },
+  {
+    id: "police",
+    title: "Police Officer / Detective",
+    sector: "Law & Justice",
+    icon: "🔍",
+    desc: "Investigate crime, gather evidence, protect the community and uphold the law through policing and detective work.",
+    uniPath: "NSW Police Force Academy (Goulburn) · Diploma of Policing Practice · Or Bachelor of Policing (Charles Sturt University)",
+    subjects: [
+      {
+        name: "Legal Studies",
+        priority: "Essential",
+        syllabusTopics: "Crime · The criminal investigation process · Rights of suspects and victims",
+        syllabusJustification: "Legal Studies provides direct study of criminal law and the investigation process. The NESA syllabus requires students to 'examine the criminal investigation process including the rights of victims, offenders and society' — the exact knowledge framework used by detectives every day.",
+        skills: ["Legal reasoning", "Rights analysis", "Case evaluation", "Ethical judgement"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Highly Recommended",
+        syllabusTopics: "Social and cultural research methods · Multiculturalism · Social change",
+        syllabusJustification: "The Society & Culture syllabus (NESA) develops 'an understanding of the interactions between people, societies and culture'. Police work in diverse communities requires exactly this social awareness and cultural competency.",
+        skills: ["Cross-cultural analysis", "Research methods", "Social understanding"],
+      },
+    ]
+  },
+  {
+    id: "human-rights-lawyer",
+    title: "Human Rights Lawyer",
+    sector: "Law & Justice",
+    icon: "🌐",
+    desc: "Advocate for individuals and communities whose fundamental rights have been violated, in Australian and international contexts.",
+    uniPath: "LLB / JD + specialisation in International Law · Consider combined Arts/Law",
+    subjects: [
+      {
+        name: "Legal Studies",
+        priority: "Essential",
+        syllabusTopics: "International human rights law · Human rights in Australia · Law reform",
+        syllabusJustification: "The Legal Studies syllabus dedicates a full topic to 'International human rights law', requiring students to evaluate the effectiveness of international and domestic mechanisms. This is the precise knowledge base of human rights legal practice.",
+        skills: ["Human rights analysis", "International law", "Legal argument", "Law reform evaluation"],
+      },
+      {
+        name: "Modern History",
+        priority: "Essential",
+        syllabusTopics: "Peace & conflict · National studies · World order since 1945",
+        syllabusJustification: "Modern History requires students to 'investigate the nature and significance of political, social and cultural change' (NESA). Understanding the historical emergence of human rights frameworks — from the Holocaust to UDHR — is essential context for rights-based legal work.",
+        skills: ["Historical empathy", "Source analysis", "Geopolitical understanding"],
+      },
+      {
+        name: "Aboriginal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Self-determination · Rights and recognition · Contemporary issues",
+        syllabusJustification: "Aboriginal Studies (NESA) requires students to 'investigate issues of social justice and the processes of self-determination'. For lawyers working in Indigenous rights, native title or constitutional recognition, this foundational knowledge is indispensable.",
+        skills: ["Community ethics", "Policy critique", "Cultural understanding"],
+      },
+    ]
+  },
+  {
+    id: "criminologist",
+    title: "Criminologist",
+    sector: "Law & Justice",
+    icon: "📊",
+    desc: "Research the causes of crime, evaluate criminal justice policy and develop prevention strategies for government and NGOs.",
+    uniPath: "Bachelor of Criminology or Bachelor of Arts (Criminology) · Often combined with Psychology or Sociology",
+    subjects: [
+      {
+        name: "Legal Studies",
+        priority: "Essential",
+        syllabusTopics: "Crime · Criminal investigation process · Sentencing and punishment",
+        syllabusJustification: "Legal Studies (NESA) requires analysis of 'the effectiveness of legal and non-legal responses to crime', including restorative justice, rehabilitation and recidivism. This is core criminological inquiry.",
+        skills: ["Crime analysis", "Policy evaluation", "Legal reasoning"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Essential",
+        syllabusTopics: "Social research methods · Social change · The Personal Interest Project",
+        syllabusJustification: "Society & Culture (NESA) trains students in 'a range of research methodologies including surveys, interviews and case studies'. Criminology is an empirical social science — these research design skills are foundational to the discipline.",
+        skills: ["Social research methods", "Data analysis", "Sociological thinking"],
+      },
+      {
+        name: "Modern History",
+        priority: "Recommended",
+        syllabusTopics: "Powers and authority · Change and continuity",
+        syllabusJustification: "Understanding historical shifts in crime, policing and punishment provides crucial context for criminological research. Modern History's focus on 'the exercise of power' (NESA) informs the study of state responses to crime.",
+        skills: ["Historical analysis", "Critical evaluation"],
+      },
+    ]
+  },
+  {
+    id: "policy-analyst",
+    title: "Policy Analyst",
+    sector: "Law & Justice",
+    icon: "📋",
+    desc: "Research, design and evaluate government policies across justice, social, economic or environmental portfolios.",
+    uniPath: "Bachelor of Arts (Politics / Economics) or Bachelor of Public Policy · Often postgraduate specialisation",
+    subjects: [
+      {
+        name: "Legal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Law reform · Effectiveness of the legal system · Rights and responsibilities",
+        syllabusJustification: "Legal Studies (NESA) requires students to 'evaluate the effectiveness of the law in achieving justice and resolving disputes'. Policy analysts must understand how legislation is drafted, implemented and reformed.",
+        skills: ["Policy evaluation", "Legal reasoning", "Law reform analysis"],
+      },
+      {
+        name: "Economics",
+        priority: "Highly Recommended",
+        syllabusTopics: "Economic policies · Role of government · Labour markets",
+        syllabusJustification: "The Economics syllabus (NESA) requires students to 'evaluate the effectiveness of economic policies'. Cost-benefit analysis and policy evaluation are central to economics — and central to public policy work.",
+        skills: ["Policy evaluation", "Quantitative analysis", "Economic modelling"],
+      },
+      {
+        name: "Modern History",
+        priority: "Recommended",
+        syllabusTopics: "Powers and authority · Political change",
+        syllabusJustification: "Modern History (NESA) trains students to 'analyse and evaluate political change'. Policy analysts require this understanding of how government, power and institutions evolve over time.",
+        skills: ["Political analysis", "Argument construction"],
+      },
+    ]
+  },
+
+  // ── BUSINESS & FINANCE ─────────────────────────────────────
+  {
+    id: "marketing-manager",
+    title: "Marketing Manager",
+    sector: "Business & Finance",
+    icon: "📣",
+    desc: "Develop and execute marketing strategies, manage brand identity and drive consumer engagement for products or services.",
+    uniPath: "Bachelor of Commerce (Marketing) or Bachelor of Business · 3 years",
+    subjects: [
+      {
+        name: "Business Studies",
+        priority: "Essential",
+        syllabusTopics: "Marketing · Business environments · Operations management",
+        syllabusJustification: "The Business Studies syllabus (NESA, 2010) dedicates a full module to marketing, requiring students to 'examine the role of marketing in the overall business operation' and analyse 'market segmentation, target markets and consumer behaviour'. This is the direct academic foundation for a marketing career.",
+        skills: ["Marketing strategy", "Market research", "Consumer behaviour analysis", "Business planning"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Highly Recommended",
+        syllabusTopics: "Popular culture · Social change · Beliefs and ideologies",
+        syllabusJustification: "Society & Culture (NESA) requires students to 'investigate the relationships between people, society, environment and culture'. Effective marketers must understand cultural shifts, social trends and consumer identity — precisely what this subject develops.",
+        skills: ["Cross-cultural analysis", "Trend identification", "Social research methods"],
+      },
+      {
+        name: "Economics",
+        priority: "Recommended",
+        syllabusTopics: "Consumers and businesses · Markets · Financial sector",
+        syllabusJustification: "Economics (NESA) requires students to 'examine the role of consumers, businesses and markets in allocating resources'. Understanding price elasticity, market structures and consumer decision-making sharpens strategic marketing thinking.",
+        skills: ["Market analysis", "Data interpretation", "Economic reasoning"],
+      },
+    ]
+  },
+  {
+    id: "financial-analyst",
+    title: "Financial Analyst",
+    sector: "Business & Finance",
+    icon: "📉",
+    desc: "Analyse financial data, model investment scenarios and advise businesses or individuals on financial decisions.",
+    uniPath: "Bachelor of Commerce (Finance / Accounting) or Bachelor of Economics · 3 years · CFA qualification valued",
+    subjects: [
+      {
+        name: "Economics",
+        priority: "Essential",
+        syllabusTopics: "Financial markets · Economic policies · Australia in the global economy",
+        syllabusJustification: "The Economics syllabus (NESA) requires students to 'explain the role of the financial sector' and 'evaluate the effectiveness of fiscal and monetary policy'. Financial analysts use these exact frameworks daily when assessing market conditions.",
+        skills: ["Quantitative analysis", "Financial modelling", "Economic interpretation", "Policy evaluation"],
+      },
+      {
+        name: "Business Studies",
+        priority: "Essential",
+        syllabusTopics: "Financial management · Business planning · Operations",
+        syllabusJustification: "Business Studies (NESA) requires students to 'analyse financial statements' and understand 'cash flow, profit and liquidity'. These accounting fundamentals are the language of financial analysis and investment banking.",
+        skills: ["Financial statement analysis", "Business planning", "Data interpretation"],
+      },
+    ]
+  },
+  {
+    id: "actuary",
+    title: "Actuary",
+    sector: "Business & Finance",
+    icon: "🎲",
+    desc: "Use mathematics and statistical modelling to assess financial risk for insurance companies, superannuation funds and banks.",
+    uniPath: "Bachelor of Actuarial Studies or Bachelor of Commerce (Actuarial) · 4 years · Institute of Actuaries exams",
+    subjects: [
+      {
+        name: "Economics",
+        priority: "Essential",
+        syllabusTopics: "Financial markets · Economic indicators · Labour market",
+        syllabusJustification: "Economics (NESA) develops 'the ability to use economic data and analyse economic trends'. Actuaries build models from exactly this kind of economic data — interest rates, inflation, employment trends and market cycles.",
+        skills: ["Quantitative analysis", "Economic modelling", "Data interpretation", "Statistical reasoning"],
+      },
+      {
+        name: "Business Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Financial management · Risk management · Business environments",
+        syllabusJustification: "Business Studies (NESA) requires students to 'examine financial risk' and 'evaluate strategies for financial management'. Understanding corporate risk is foundational to actuarial work in insurance and superannuation.",
+        skills: ["Risk analysis", "Financial management", "Business modelling"],
+      },
+    ]
+  },
+  {
+    id: "management-consultant",
+    title: "Management Consultant",
+    sector: "Business & Finance",
+    icon: "🗂️",
+    desc: "Help organisations improve performance through strategic analysis, operational redesign and organisational change.",
+    uniPath: "Bachelor of Commerce, Economics or Engineering · MBA valued for senior roles",
+    subjects: [
+      {
+        name: "Business Studies",
+        priority: "Essential",
+        syllabusTopics: "Business environments · Human resources · Operations management · Business planning",
+        syllabusJustification: "Business Studies (NESA) requires students to 'analyse the factors affecting business success' across all functional areas. Management consulting demands exactly this ability to diagnose organisational problems across HR, operations and strategy simultaneously.",
+        skills: ["Business strategy", "Operational analysis", "Problem solving", "Report writing"],
+      },
+      {
+        name: "Economics",
+        priority: "Highly Recommended",
+        syllabusTopics: "Markets · Economic policies · Australia in the global economy",
+        syllabusJustification: "Economics (NESA) develops 'the capacity to evaluate policy alternatives'. Consultants regularly assess macro conditions affecting their clients — this economic literacy is a key differentiator.",
+        skills: ["Market analysis", "Policy evaluation", "Quantitative reasoning"],
+      },
+      {
+        name: "History Extension",
+        priority: "Recommended",
+        syllabusTopics: "Historical thinking · Argument and evidence",
+        syllabusJustification: "History Extension (NESA) trains students to 'construct sophisticated, evidence-based arguments'. The ability to synthesise complex information into a compelling narrative is the core consulting deliverable.",
+        skills: ["Evidence-based argument", "Analytical writing", "Critical thinking"],
+      },
+    ]
+  },
+
+  // ── ENVIRONMENT & SCIENCE ──────────────────────────────────
+  {
+    id: "urban-planner",
+    title: "Urban Planner",
+    sector: "Environment & Science",
+    icon: "🏙️",
+    desc: "Design land use, infrastructure and development frameworks for cities, suburbs and regional communities.",
+    uniPath: "Bachelor of Urban & Regional Planning or Bachelor of Environmental Planning · 4 years",
+    subjects: [
+      {
+        name: "Geography",
+        priority: "Essential",
+        syllabusTopics: "Changing places · Human–environment interactions · Geographical investigation",
+        syllabusJustification: "Geography (NESA, 2009) requires students to 'investigate the ways in which people and environments interact' and conduct fieldwork investigations. Urban planning is applied geography — students develop the spatial analysis, GIS and land use skills planners use every day.",
+        skills: ["Spatial analysis", "Fieldwork and data collection", "GIS mapping", "Environmental evaluation"],
+      },
+      {
+        name: "Economics",
+        priority: "Highly Recommended",
+        syllabusTopics: "Markets · Role of government · Global economy",
+        syllabusJustification: "Economics (NESA) requires students to 'examine the role of government in the economy'. Planners must understand property markets, housing economics and the economic case for infrastructure investment.",
+        skills: ["Economic analysis", "Policy evaluation", "Cost-benefit thinking"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Law reform · Rights and responsibilities · Environmental law",
+        syllabusJustification: "Legal Studies (NESA) develops understanding of 'how law operates in practice'. Planners navigate complex planning legislation, development controls and heritage law every day.",
+        skills: ["Statutory interpretation", "Legal reasoning"],
+      },
+    ]
+  },
+  {
+    id: "environmental-scientist",
+    title: "Environmental Scientist",
+    sector: "Environment & Science",
+    icon: "🌿",
+    desc: "Monitor, assess and develop solutions for environmental problems including pollution, biodiversity loss and climate change.",
+    uniPath: "Bachelor of Environmental Science or Bachelor of Science (Ecology) · 3–4 years",
+    subjects: [
+      {
+        name: "Geography",
+        priority: "Essential",
+        syllabusTopics: "Biophysical interactions · Global change · Environmental research",
+        syllabusJustification: "Geography (NESA) requires students to 'investigate biophysical systems and processes' including climate, soils, water and ecosystems. This directly mirrors the fieldwork, monitoring and systems thinking of environmental science practice.",
+        skills: ["Environmental evaluation", "Fieldwork and data collection", "Systems thinking", "Report writing"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Recommended",
+        syllabusTopics: "Environment · Social change · Research methods",
+        syllabusJustification: "Society & Culture (NESA) includes 'the environment as a social and cultural force'. Environmental scientists increasingly work at the intersection of ecology and community — understanding how communities respond to environmental change is crucial.",
+        skills: ["Research methods", "Social analysis", "Community engagement"],
+      },
+    ]
+  },
+  {
+    id: "sustainability-consultant",
+    title: "Sustainability Consultant",
+    sector: "Environment & Science",
+    icon: "♻️",
+    desc: "Help businesses and governments reduce environmental impact, meet ESG targets and transition to sustainable operations.",
+    uniPath: "Bachelor of Environmental Studies, Commerce or Science · Postgraduate in Sustainability",
+    subjects: [
+      {
+        name: "Geography",
+        priority: "Essential",
+        syllabusTopics: "Global change · Human–environment interactions · Environmental sustainability",
+        syllabusJustification: "Geography (NESA) requires students to 'evaluate the sustainability of environmental management strategies'. This is precisely the work of sustainability consultants — assessing impact and recommending alternatives.",
+        skills: ["Sustainability analysis", "Environmental evaluation", "GIS and spatial data"],
+      },
+      {
+        name: "Business Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Business environments · Ethical decision-making · Operations management",
+        syllabusJustification: "Business Studies (NESA) requires students to 'examine ethical decision-making in business'. Sustainability consulting requires the ability to translate environmental goals into business strategy — exactly this business–ethics interface.",
+        skills: ["Business strategy", "Ethical decision-making", "Report writing"],
+      },
+      {
+        name: "Economics",
+        priority: "Recommended",
+        syllabusTopics: "Role of government · Market failure · Environmental economics",
+        syllabusJustification: "Economics (NESA) addresses market failure and the role of government intervention — the theoretical foundation for carbon pricing, green subsidies and emissions trading schemes that consultants work with.",
+        skills: ["Economic policy", "Market analysis", "Quantitative reasoning"],
+      },
+    ]
+  },
+
+  // ── HISTORY & CULTURE ──────────────────────────────────────
+  {
+    id: "archaeologist",
+    title: "Archaeologist",
+    sector: "History & Culture",
+    icon: "⛏️",
+    desc: "Excavate, analyse and interpret physical remains of past human societies to reconstruct history and culture.",
+    uniPath: "Bachelor of Arts (Archaeology) or Bachelor of Arts / Science · Honours strongly recommended",
+    subjects: [
+      {
+        name: "Ancient History",
+        priority: "Essential",
+        syllabusTopics: "Pompeii and Herculaneum · Historical periods · Analysis of sources and sites",
+        syllabusJustification: "Ancient History (NESA) requires students to 'investigate, analyse and interpret archaeological and written sources'. The study of Pompeii in particular teaches site stratigraphy, artefact interpretation and the limits of archaeological evidence — core professional competencies.",
+        skills: ["Archaeological analysis", "Evidence interpretation", "Comparative study", "Essay writing"],
+      },
+      {
+        name: "Aboriginal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Land and spirituality · Cultural continuity · Heritage",
+        syllabusJustification: "Aboriginal Studies (NESA) develops understanding of 'the significance of land, sea and spirituality to Aboriginal peoples'. Australian archaeologists frequently work on Country with communities — cultural competency and understanding of heritage significance is ethically required.",
+        skills: ["Cultural understanding", "Ethical research", "Community engagement"],
+      },
+      {
+        name: "History Extension",
+        priority: "Recommended",
+        syllabusTopics: "Schools of historical thought · Historical practice",
+        syllabusJustification: "History Extension (NESA) interrogates 'the nature of history and how historians construct knowledge'. Archaeologists must grapple with the same epistemological questions — what can physical evidence tell us, and what are its limits?",
+        skills: ["Historiographical analysis", "Independent research", "Thesis development"],
+      },
+    ]
+  },
+  {
+    id: "museum-curator",
+    title: "Museum Curator",
+    sector: "History & Culture",
+    icon: "🏺",
+    desc: "Acquire, research, preserve and display collections of historical, artistic or scientific significance for public education.",
+    uniPath: "Bachelor of Arts (History / Archaeology / Art History) · Masters in Museum Studies",
+    subjects: [
+      {
+        name: "Ancient History",
+        priority: "Essential",
+        syllabusTopics: "Artefact analysis · Societies in depth · Material culture",
+        syllabusJustification: "Ancient History (NESA) trains students to 'evaluate the nature and reliability of ancient sources including material culture'. This artefact literacy — understanding provenance, significance and context — is the curator's core expertise.",
+        skills: ["Artefact analysis", "Evidence evaluation", "Research skills", "Academic writing"],
+      },
+      {
+        name: "Modern History",
+        priority: "Highly Recommended",
+        syllabusTopics: "National studies · Historical significance · Public history",
+        syllabusJustification: "Modern History (NESA) requires students to 'evaluate the significance of events and the perspectives of historians'. Curators make decisions about which histories deserve to be told — this critical historical judgement is essential.",
+        skills: ["Historical analysis", "Significance evaluation", "Narrative construction"],
+      },
+      {
+        name: "Aboriginal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Cultural heritage · Identity and continuity · Repatriation",
+        syllabusJustification: "Aboriginal Studies (NESA) develops understanding of cultural heritage and its significance to communities. Australian museums are navigating repatriation of remains and sacred objects — curators need this foundational knowledge.",
+        skills: ["Cultural sensitivity", "Community engagement", "Ethical research"],
+      },
+    ]
+  },
+  {
+    id: "academic-historian",
+    title: "Academic Historian",
+    sector: "History & Culture",
+    icon: "🎓",
+    desc: "Research, publish and teach history at university level, contributing original scholarship to our understanding of the past.",
+    uniPath: "Bachelor of Arts (History) → Honours → PhD · 8–10 years total",
+    subjects: [
+      {
+        name: "History Extension",
+        priority: "Essential",
+        syllabusTopics: "Nature of history · Schools of historical thought · History project",
+        syllabusJustification: "History Extension (NESA) is explicitly designed to develop 'the skills of the historian, including independent research, historiographical understanding and extended analytical writing'. This is the direct preparation for Honours and PhD research.",
+        skills: ["Historiographical analysis", "Independent research", "Thesis development", "Extended writing"],
+      },
+      {
+        name: "Modern History",
+        priority: "Essential",
+        syllabusTopics: "Historical periods · National studies · Change and continuity",
+        syllabusJustification: "Modern History (NESA) develops 'the capacity to investigate historical problems, gather evidence and construct analytical arguments'. These research and argumentation skills are the core methodology of academic historical practice.",
+        skills: ["Source analysis", "Argument construction", "Historical empathy", "Research synthesis"],
+      },
+      {
+        name: "Ancient History",
+        priority: "Highly Recommended",
+        syllabusTopics: "Personalities in their times · Societies in depth · Source analysis",
+        syllabusJustification: "Ancient History (NESA) develops comparative historical skills across multiple civilisations. Breadth across periods strengthens the analytical versatility expected of academic historians.",
+        skills: ["Comparative study", "Evidence evaluation", "Classical source analysis"],
+      },
+    ]
+  },
+
+  // ── SOCIAL & COMMUNITY ─────────────────────────────────────
+  {
+    id: "social-worker",
+    title: "Social Worker",
+    sector: "Social & Community",
+    icon: "🤝",
+    desc: "Support individuals, families and communities facing hardship, trauma, mental health challenges or social disadvantage.",
+    uniPath: "Bachelor of Social Work (AASW accredited) · 4 years — required for registration",
+    subjects: [
+      {
+        name: "Society & Culture",
+        priority: "Essential",
+        syllabusTopics: "Personal and social identity · Beliefs and ideologies · Social change · Multiculturalism",
+        syllabusJustification: "Society & Culture (NESA) develops 'understanding of the complex interactions between people, communities and social institutions'. Social workers must analyse how social structures create disadvantage — this sociological thinking is the discipline's foundation.",
+        skills: ["Cross-cultural analysis", "Social research methods", "Sociological thinking", "Empathy"],
+      },
+      {
+        name: "Aboriginal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Community wellbeing · Self-determination · Contemporary issues",
+        syllabusJustification: "Aboriginal Studies (NESA) requires understanding of 'the diversity of contemporary Aboriginal communities and their aspirations'. Given the over-representation of Aboriginal people in welfare systems, culturally safe practice is a professional obligation for all social workers in Australia.",
+        skills: ["Cultural competency", "Community ethics", "Policy critique"],
+      },
+      {
+        name: "Studies of Religion",
+        priority: "Recommended",
+        syllabusTopics: "Beliefs and practices · Religion in Australia · Ethics",
+        syllabusJustification: "Studies of Religion (NESA) develops 'understanding of the diversity of religious expression and its role in human experience'. Social workers serve clients of all faith backgrounds — religious literacy supports respectful, holistic practice.",
+        skills: ["Cultural sensitivity", "Ethical reasoning", "Reflective practice"],
+      },
+    ]
+  },
+  {
+    id: "indigenous-policy-advisor",
+    title: "Indigenous Policy Advisor",
+    sector: "Social & Community",
+    icon: "🪃",
+    desc: "Develop and evaluate government and NGO policies affecting Aboriginal and Torres Strait Islander communities.",
+    uniPath: "Bachelor of Arts / Social Work / Law · Postgraduate in Public Policy · AIATSIS training",
+    subjects: [
+      {
+        name: "Aboriginal Studies",
+        priority: "Essential",
+        syllabusTopics: "Self-determination · Governance · Rights and recognition · Contemporary issues",
+        syllabusJustification: "Aboriginal Studies (NESA) is structured around the 'political, social and cultural dimensions of Aboriginal and Torres Strait Islander peoples' lives'. This is the foundational knowledge required to develop policy that is effective, ethical and community-driven.",
+        skills: ["Policy critique", "Community research", "Ethical enquiry", "Oral history methods"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Human rights · Law reform · Rights and responsibilities",
+        syllabusJustification: "Legal Studies (NESA) addresses 'the role of law in protecting human rights'. Indigenous policy advisors must understand native title, the Racial Discrimination Act and constitutional recognition debates.",
+        skills: ["Legal reasoning", "Rights analysis", "Policy evaluation"],
+      },
+      {
+        name: "Modern History",
+        priority: "Recommended",
+        syllabusTopics: "National studies · Change and continuity · Powers and authority",
+        syllabusJustification: "Modern History (NESA) enables students to 'investigate Australia's engagement with political and social change'. Understanding the history of dispossession, the Stolen Generations and self-determination movements provides essential context for contemporary policy work.",
+        skills: ["Historical analysis", "Source evaluation", "Argument construction"],
+      },
+    ]
+  },
+  {
+    id: "community-development",
+    title: "Community Development Worker",
+    sector: "Social & Community",
+    icon: "🌱",
+    desc: "Work with communities to identify needs, build capacity and develop grassroots programs that create lasting change.",
+    uniPath: "Bachelor of Social Work, Community Development or Arts · Certificate IV in Community Services",
+    subjects: [
+      {
+        name: "Society & Culture",
+        priority: "Essential",
+        syllabusTopics: "Social change · Environment · Beliefs and ideologies · Personal Interest Project",
+        syllabusJustification: "Society & Culture (NESA) requires students to conduct 'an in-depth investigation into a social or cultural issue of personal interest'. This research-into-practice model mirrors exactly how community development workers identify local needs and design responsive programs.",
+        skills: ["Social research methods", "Community analysis", "Sociological thinking", "Report writing"],
+      },
+      {
+        name: "Aboriginal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Community wellbeing · Governance · Identity and continuity",
+        syllabusJustification: "Aboriginal Studies (NESA) develops understanding of 'community structures, governance and the aspirations of Aboriginal communities'. Effective community development work requires genuine understanding of community decision-making processes.",
+        skills: ["Community ethics", "Cultural competency", "Participatory research"],
+      },
+    ]
+  },
+
+  // ── MEDIA & COMMUNICATION ──────────────────────────────────
+  {
+    id: "journalist",
+    title: "Journalist",
+    sector: "Media & Communication",
+    icon: "📰",
+    desc: "Research, investigate and report on current events, social issues and human stories across print, broadcast and digital media.",
+    uniPath: "Bachelor of Journalism or Bachelor of Communications · 3 years",
+    subjects: [
+      {
+        name: "Modern History",
+        priority: "Essential",
+        syllabusTopics: "Historical investigation · Source analysis · Contemporary world",
+        syllabusJustification: "Modern History (NESA) develops 'the skills of investigation, analysis, evaluation and communication of historical knowledge'. Journalism is applied historical investigation in real time — the same source-scepticism, contextualisation and narrative skills are required.",
+        skills: ["Source analysis", "Research synthesis", "Argument construction", "Written communication"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Rights and responsibilities · The individual and technology · Media law",
+        syllabusJustification: "Legal Studies (NESA) covers 'the rights and responsibilities of individuals in a digital society' including defamation, privacy and freedom of the press. These legal boundaries define the professional practice of journalism.",
+        skills: ["Legal reasoning", "Rights analysis", "Ethical judgement"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Recommended",
+        syllabusTopics: "Popular culture · Social change · Beliefs and ideologies",
+        syllabusJustification: "Society & Culture (NESA) trains students to 'investigate the role of popular culture in shaping social identity'. Journalists who understand cultural trends and social dynamics produce more insightful, contextualised reporting.",
+        skills: ["Social analysis", "Cross-cultural understanding", "Research methods"],
+      },
+    ]
+  },
+  {
+    id: "documentary-filmmaker",
+    title: "Documentary Filmmaker",
+    sector: "Media & Communication",
+    icon: "🎬",
+    desc: "Research, produce and direct documentary films on historical, social, cultural or environmental topics.",
+    uniPath: "Bachelor of Film & Television or Bachelor of Arts (Media) · 3 years",
+    subjects: [
+      {
+        name: "Modern History",
+        priority: "Essential",
+        syllabusTopics: "Historical narratives · Source analysis · Significance and perspective",
+        syllabusJustification: "Modern History (NESA) trains students to 'construct historical narratives that are supported by evidence and acknowledge multiple perspectives'. Documentary filmmaking is exactly this — evidence-based storytelling that grapples with contested histories.",
+        skills: ["Narrative construction", "Source analysis", "Multiple perspectives", "Research synthesis"],
+      },
+      {
+        name: "Ancient History",
+        priority: "Highly Recommended",
+        syllabusTopics: "Societies in depth · Archaeological evidence · Historical significance",
+        syllabusJustification: "Ancient History (NESA) develops the ability to 'investigate the ancient world through a range of source types'. Documentaries about ancient civilisations require exactly this skill in interpreting material, written and visual evidence.",
+        skills: ["Research skills", "Evidence evaluation", "Historical significance"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Recommended",
+        syllabusTopics: "Popular culture · Social change · Research methods",
+        syllabusJustification: "Society & Culture (NESA) develops 'the ability to select and apply appropriate research methods'. Documentary makers use ethnographic, interview-based and observational methods that mirror social research practice.",
+        skills: ["Research methods", "Social analysis", "Cultural understanding"],
+      },
+    ]
+  },
+  {
+    id: "diplomat",
+    title: "Diplomat / Foreign Affairs Officer",
+    sector: "Media & Communication",
+    icon: "🌍",
+    desc: "Represent Australia's interests abroad, negotiate international agreements and build relationships with foreign governments.",
+    uniPath: "Bachelor of Arts (International Relations / Politics) · DFAT graduate program · Often postgraduate",
+    subjects: [
+      {
+        name: "Modern History",
+        priority: "Essential",
+        syllabusTopics: "World order · Peace & conflict · National studies · Powers and authority",
+        syllabusJustification: "Modern History (NESA) requires students to 'investigate the nature of international conflict and cooperation'. Diplomacy is the practical expression of international relations — understanding how today's alliances and conflicts emerged from historical events is essential.",
+        skills: ["Geopolitical analysis", "Source analysis", "Argument construction", "Perspective-taking"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "International human rights law · World order · Treaty obligations",
+        syllabusJustification: "Legal Studies (NESA) includes the study of 'the international legal system and Australia's role in it'. Diplomats negotiate treaties, work within international law and must understand the enforcement mechanisms of bodies like the UN and ICC.",
+        skills: ["International law", "Legal reasoning", "Rights analysis"],
+      },
+      {
+        name: "Geography",
+        priority: "Recommended",
+        syllabusTopics: "Global change · Human–environment interactions · Geopolitics",
+        syllabusJustification: "Geography (NESA) develops 'understanding of global environmental and social challenges'. Climate change, resource scarcity and migration are now central diplomatic issues — geographic literacy is increasingly essential.",
+        skills: ["Global systems thinking", "Environmental analysis", "Spatial reasoning"],
+      },
+    ]
+  },
+
+  // ── EDUCATION & RESEARCH ───────────────────────────────────
+  {
+    id: "teacher",
+    title: "Secondary Teacher (HSIE)",
+    sector: "Education & Research",
+    icon: "🏫",
+    desc: "Teach History, Geography, Legal Studies, Business Studies or other HSIE subjects to students in Years 7–12.",
+    uniPath: "Bachelor of Arts / Commerce + Master of Teaching (Secondary) · Or Bachelor of Education (Secondary) · 4–5 years",
+    subjects: [
+      {
+        name: "Modern History",
+        priority: "Essential",
+        syllabusTopics: "All content and inquiry skills",
+        syllabusJustification: "Modern History (NESA) is one of the most commonly taught HSIE subjects. Deep content knowledge of the 20th century, combined with the historical inquiry skills the syllabus develops, equips teachers to deliver engaging, evidence-based lessons.",
+        skills: ["Historical analysis", "Research skills", "Communication", "Argument construction"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "All content and inquiry skills",
+        syllabusJustification: "Legal Studies teachers must have genuine understanding of the legal system, crime, rights and law reform (NESA). Subject expertise built through HSC Legal Studies directly informs confident, accurate classroom teaching.",
+        skills: ["Legal reasoning", "Case analysis", "Ethical reasoning"],
+      },
+      {
+        name: "Geography",
+        priority: "Recommended",
+        syllabusTopics: "All content and fieldwork skills",
+        syllabusJustification: "Geography (NESA) is taught across all year levels. Teachers with strong geographic skills — particularly in fieldwork and GIS — can deliver the mandatory fieldwork components effectively and safely.",
+        skills: ["Fieldwork", "Spatial analysis", "Environmental evaluation"],
+      },
+    ]
+  },
+  {
+    id: "archivist",
+    title: "Archivist",
+    sector: "Education & Research",
+    icon: "📁",
+    desc: "Preserve, organise and provide access to historical records and documents for government, universities and cultural institutions.",
+    uniPath: "Bachelor of Arts (History) + Master of Information Management or Library & Archive Studies",
+    subjects: [
+      {
+        name: "History Extension",
+        priority: "Essential",
+        syllabusTopics: "Nature of history · Historical sources · History project",
+        syllabusJustification: "History Extension (NESA) is explicitly concerned with 'the nature, value and reliability of historical sources'. Archivists are the custodians of primary sources — this deep understanding of what sources are, how they were created and how they can mislead is foundational.",
+        skills: ["Source analysis", "Independent research", "Historiographical thinking"],
+      },
+      {
+        name: "Ancient History",
+        priority: "Recommended",
+        syllabusTopics: "Source types · Reliability and bias · Material culture",
+        syllabusJustification: "Ancient History (NESA) trains students to work with fragmented, incomplete and contested sources. Archivists frequently encounter damaged or ambiguous records — this interpretive skill is directly transferable.",
+        skills: ["Evidence evaluation", "Comparative study", "Research methodology"],
+      },
+    ]
+  },
+  {
+    id: "research-analyst",
+    title: "Research Analyst (Think Tank / NGO)",
+    sector: "Education & Research",
+    icon: "🔬",
+    desc: "Produce policy research and briefings for think tanks, NGOs or government agencies to inform public debate.",
+    uniPath: "Bachelor of Arts (Politics / Economics / History) · Postgraduate research often expected",
+    subjects: [
+      {
+        name: "History Extension",
+        priority: "Essential",
+        syllabusTopics: "Schools of historical thought · Research project · Argument and evidence",
+        syllabusJustification: "History Extension (NESA) is the only HSC subject that requires students to 'produce an independent, extended research project'. This self-directed research process — question design, evidence gathering, argumentation — mirrors think tank research methodology precisely.",
+        skills: ["Independent research", "Thesis development", "Analytical writing", "Evidence synthesis"],
+      },
+      {
+        name: "Economics",
+        priority: "Highly Recommended",
+        syllabusTopics: "Economic policies · Labour markets · Global economy",
+        syllabusJustification: "Economics (NESA) develops 'the capacity to evaluate policy alternatives using economic data'. Most think tanks produce economic policy analysis — quantitative literacy combined with policy evaluation is essential.",
+        skills: ["Policy evaluation", "Quantitative analysis", "Economic modelling"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Law reform · Rights · Government and law",
+        syllabusJustification: "Legal Studies (NESA) develops 'the capacity to evaluate the effectiveness of legal responses'. Research analysts in law and social policy organisations need this critical framework for evaluating legislative and regulatory change.",
+        skills: ["Policy analysis", "Legal reasoning", "Argument construction"],
+      },
+    ]
+  },
+
+  // ── HEALTH & WELLBEING ─────────────────────────────────────
+  {
+    id: "psychologist",
+    title: "Psychologist",
+    sector: "Health & Wellbeing",
+    icon: "🧠",
+    desc: "Assess and treat mental health conditions, conduct research and promote wellbeing through evidence-based psychological practice.",
+    uniPath: "Bachelor of Psychology (Honours) · 4 years + 2-year postgraduate program for registration (AHPRA)",
+    subjects: [
+      {
+        name: "Society & Culture",
+        priority: "Essential",
+        syllabusTopics: "Personal and social identity · Social change · Research methods",
+        syllabusJustification: "Society & Culture (NESA) develops 'an understanding of the social and cultural factors that shape individual identity and behaviour'. This sociological lens is foundational to psychological practice, particularly in understanding how social environment affects mental health.",
+        skills: ["Social research methods", "Identity analysis", "Sociological thinking", "Reflective practice"],
+      },
+      {
+        name: "Studies of Religion",
+        priority: "Recommended",
+        syllabusTopics: "Beliefs and practices · Ethics · Wellbeing",
+        syllabusJustification: "Studies of Religion (NESA) develops 'an understanding of the role of religion and belief in human experience'. Psychologists work with clients for whom faith and spirituality are central to their identity and wellbeing — religious literacy supports culturally competent practice.",
+        skills: ["Cultural sensitivity", "Ethical reasoning", "Empathetic understanding"],
+      },
+      {
+        name: "Aboriginal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Community wellbeing · Contemporary challenges · Cultural continuity",
+        syllabusJustification: "Aboriginal Studies (NESA) addresses the social, historical and cultural factors affecting Aboriginal communities' wellbeing. Given health disparities, psychologists practising in Australia are required to engage with cultural safety — this subject provides the foundational understanding.",
+        skills: ["Cultural competency", "Trauma awareness", "Community understanding"],
+      },
+    ]
+  },
+  {
+    id: "chaplain",
+    title: "Chaplain / Pastoral Carer",
+    sector: "Health & Wellbeing",
+    icon: "🕊️",
+    desc: "Provide spiritual, emotional and practical support in schools, hospitals, prisons and the military.",
+    uniPath: "Bachelor of Theology / Ministry · Or relevant professional degree + Chaplaincy training",
+    subjects: [
+      {
+        name: "Studies of Religion",
+        priority: "Essential",
+        syllabusTopics: "All world religions · Nature of religion · Religion in Australia · Ethics",
+        syllabusJustification: "Studies of Religion (NESA) is the most directly relevant HSC subject. The syllabus requires 'in-depth study of two religious traditions and comparative understanding of others'. Chaplains serve people of all faiths and none — this breadth of religious knowledge is a professional requirement.",
+        skills: ["Comparative religious knowledge", "Ethical reasoning", "Cultural sensitivity", "Empathetic listening"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Highly Recommended",
+        syllabusTopics: "Personal and social identity · Wellbeing · Social change",
+        syllabusJustification: "Society & Culture (NESA) develops understanding of 'how individuals construct identity through social and cultural frameworks'. Pastoral carers must understand the social and cultural context of those they support, not only their spiritual needs.",
+        skills: ["Social understanding", "Empathy", "Intercultural communication"],
+      },
+    ]
+  },
+  {
+    id: "public-health",
+    title: "Public Health Officer",
+    sector: "Health & Wellbeing",
+    icon: "🏥",
+    desc: "Design and deliver population-level health programs, disease prevention campaigns and health policy for government agencies.",
+    uniPath: "Bachelor of Public Health or Bachelor of Health Sciences · 3 years · Masters of Public Health valued",
+    subjects: [
+      {
+        name: "Society & Culture",
+        priority: "Essential",
+        syllabusTopics: "Social change · Research methods · Beliefs and ideologies · Environment",
+        syllabusJustification: "Society & Culture (NESA) develops 'the ability to investigate social patterns using a range of research methods'. Public health is a social science — designing effective interventions requires understanding why communities behave as they do.",
+        skills: ["Social research methods", "Community analysis", "Data interpretation", "Report writing"],
+      },
+      {
+        name: "Geography",
+        priority: "Highly Recommended",
+        syllabusTopics: "Human–environment interactions · Global change · Spatial analysis",
+        syllabusJustification: "Geography (NESA) develops spatial analysis skills and understanding of 'the uneven distribution of resources and wellbeing'. Health geography — mapping disease burden, identifying at-risk populations — is a core public health tool.",
+        skills: ["Spatial analysis", "GIS mapping", "Environmental evaluation"],
+      },
+      {
+        name: "Economics",
+        priority: "Recommended",
+        syllabusTopics: "Role of government · Markets · Labour market",
+        syllabusJustification: "Economics (NESA) develops understanding of 'government intervention and market failure'. Health economics — the allocation of scarce healthcare resources — is a growing field, and public health officers increasingly work with health economists.",
+        skills: ["Economic analysis", "Policy evaluation", "Quantitative reasoning"],
+      },
+    ]
+  },
+  {
+    id: "ethicist",
+    title: "Ethicist / Bioethicist",
+    sector: "Health & Wellbeing",
+    icon: "⚕️",
+    desc: "Advise hospitals, universities and governments on the ethical dimensions of medical research, clinical practice and technology.",
+    uniPath: "Bachelor of Philosophy or Arts + Postgraduate in Bioethics or Law · Academic or hospital-based roles",
+    subjects: [
+      {
+        name: "Studies of Religion",
+        priority: "Essential",
+        syllabusTopics: "Ethics · Nature of religion · Beliefs and practices",
+        syllabusJustification: "Studies of Religion (NESA) requires students to 'investigate ethical questions from within religious frameworks and broader philosophical traditions'. Bioethics draws heavily on both religious and secular moral reasoning — this subject directly develops this dual lens.",
+        skills: ["Ethical reasoning", "Philosophical thinking", "Comparative analysis", "Reflective writing"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Rights and responsibilities · The individual and technology · Law reform",
+        syllabusJustification: "Legal Studies (NESA) addresses 'the legal frameworks governing individual rights and new technologies'. Bioethicists frequently engage with legal and regulatory questions around consent, genetic research and end-of-life care.",
+        skills: ["Legal reasoning", "Rights analysis", "Policy critique"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Recommended",
+        syllabusTopics: "Beliefs and ideologies · Social change · Research methods",
+        syllabusJustification: "Society & Culture (NESA) develops 'an understanding of how beliefs and ideologies shape social institutions'. Ethicists must understand how cultural values shape moral judgement — especially in diverse, multicultural healthcare contexts.",
+        skills: ["Social analysis", "Cultural understanding", "Research methods"],
+      },
+    ]
+  },
+
+  // ── NURSING & ALLIED HEALTH ────────────────────────────────
+  {
+    id: "nurse",
+    title: "Registered Nurse",
+    sector: "Health & Wellbeing",
+    icon: "🩺",
+    desc: "Provide direct patient care in hospitals, aged care, community health and specialty settings, working as part of a healthcare team.",
+    uniPath: "Bachelor of Nursing (3 years) · AHPRA registration required · Pathways via TAFE (Enrolled Nurse) then university",
+    subjects: [
+      {
+        name: "Society & Culture",
+        priority: "Essential",
+        syllabusTopics: "Personal and social identity · Multiculturalism · Social change · Wellbeing",
+        syllabusJustification: "Society & Culture (NESA) develops 'understanding of the complex interactions between people, society and culture'. Nurses deliver care across all cultural backgrounds — the cultural competency, social awareness and communication skills this subject builds are directly required for person-centred nursing practice.",
+        skills: ["Cross-cultural communication", "Social research methods", "Empathy", "Sociological thinking"],
+      },
+      {
+        name: "Aboriginal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Community wellbeing · Contemporary challenges · Cultural continuity · Identity",
+        syllabusJustification: "Aboriginal Studies (NESA) addresses 'the social, cultural and historical factors affecting the health and wellbeing of Aboriginal communities'. Nurses in Australia are required to practise with cultural safety — understanding the historical trauma that shapes healthcare engagement is a professional obligation.",
+        skills: ["Cultural safety", "Community understanding", "Ethical practice"],
+      },
+      {
+        name: "Studies of Religion",
+        priority: "Recommended",
+        syllabusTopics: "Beliefs and practices · Ethics · Religion in Australia",
+        syllabusJustification: "Studies of Religion (NESA) develops 'understanding of the role of religion and belief in human experience'. Nurses regularly support patients and families whose health decisions are shaped by faith — religious literacy enables respectful, holistic care.",
+        skills: ["Cultural sensitivity", "Ethical reasoning", "Reflective practice"],
+      },
+    ]
+  },
+  {
+    id: "paramedic",
+    title: "Paramedic",
+    sector: "Health & Wellbeing",
+    icon: "🚑",
+    desc: "Respond to medical emergencies, provide pre-hospital clinical care and transport patients to appropriate health facilities.",
+    uniPath: "Bachelor of Paramedicine (3 years) · AHPRA registration required · NSW Ambulance or private providers",
+    subjects: [
+      {
+        name: "Society & Culture",
+        priority: "Highly Recommended",
+        syllabusTopics: "Personal and social identity · Social change · Multiculturalism · Wellbeing",
+        syllabusJustification: "Society & Culture (NESA) develops 'understanding of how social and cultural factors shape individuals'. Paramedics respond to patients from every background, often in crisis — the social literacy, empathy and communication skills this subject builds are essential for effective pre-hospital care.",
+        skills: ["Cross-cultural communication", "Social understanding", "Empathetic practice"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Rights and responsibilities · The individual and the law · Ethical decision-making",
+        syllabusJustification: "Legal Studies (NESA) develops understanding of 'individual rights and responsibilities and the legal frameworks that govern them'. Paramedics regularly navigate complex legal and ethical situations — consent, capacity, use of force — requiring this foundational legal knowledge.",
+        skills: ["Legal reasoning", "Ethical decision-making", "Rights analysis"],
+      },
+      {
+        name: "Aboriginal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Community wellbeing · Cultural continuity · Contemporary issues",
+        syllabusJustification: "Aboriginal Studies (NESA) provides understanding of 'the historical and contemporary factors affecting the health of Aboriginal communities'. Cultural safety in emergency healthcare is essential for reducing health disparities — this subject builds that foundational awareness.",
+        skills: ["Cultural safety", "Community understanding", "Ethical awareness"],
+      },
+    ]
+  },
+
+  // ── AVIATION & TRAVEL ──────────────────────────────────────
+  {
+    id: "pilot",
+    title: "Pilot (Commercial / Airline)",
+    sector: "Aviation & Travel",
+    icon: "✈️",
+    desc: "Operate commercial aircraft transporting passengers or freight on domestic and international routes.",
+    uniPath: "Bachelor of Aviation (3 years) or Integrated Flight Training · CASA licences (PPL → CPL → ATPL) · Cadetship programs with Qantas, Rex, Alliance",
+    subjects: [
+      {
+        name: "Geography",
+        priority: "Highly Recommended",
+        syllabusTopics: "Biophysical interactions · Global change · Spatial analysis · Climate systems",
+        syllabusJustification: "Geography (NESA) develops 'understanding of atmospheric systems, climate and weather patterns'. Pilots must understand meteorology, global atmospheric systems and how weather affects flight planning and safety — directly aligned with Geography's biophysical content.",
+        skills: ["Spatial analysis", "Environmental systems thinking", "Climate understanding", "Data interpretation"],
+      },
+      {
+        name: "Modern History",
+        priority: "Recommended",
+        syllabusTopics: "Global change · International relations · Technology and society",
+        syllabusJustification: "Modern History (NESA) develops 'understanding of how political and technological change shapes the modern world'. The global aviation industry is shaped by international agreements (Chicago Convention, Open Skies), geopolitics and regulatory frameworks — this subject builds that contextual awareness.",
+        skills: ["Global awareness", "Analytical thinking", "Communication skills"],
+      },
+      {
+        name: "Economics",
+        priority: "Recommended",
+        syllabusTopics: "Global economy · Markets · Business operations",
+        syllabusJustification: "Economics (NESA) develops 'understanding of global economic systems and international trade'. Senior pilots and aviation managers must understand airline economics, route profitability and industry regulation — Economics provides this analytical foundation.",
+        skills: ["Economic reasoning", "Global systems thinking", "Data interpretation"],
+      },
+    ]
+  },
+  {
+    id: "flight-attendant",
+    title: "Flight Attendant",
+    sector: "Aviation & Travel",
+    icon: "🛫",
+    desc: "Ensure the safety, comfort and wellbeing of airline passengers on domestic and international flights.",
+    uniPath: "No specific degree required · Certificate III in Aviation (Cabin Crew) · Airline-specific training programs · Languages an asset",
+    subjects: [
+      {
+        name: "Society & Culture",
+        priority: "Essential",
+        syllabusTopics: "Multiculturalism · Personal and social identity · Cross-cultural communication",
+        syllabusJustification: "Society & Culture (NESA) develops 'an understanding of the diversity of cultural practices and the ability to communicate across cultural boundaries'. Flight attendants interact with passengers from every cultural background — this intercultural competency and adaptive communication skills are a core professional requirement.",
+        skills: ["Cross-cultural communication", "Social understanding", "Interpersonal skills", "Adaptability"],
+      },
+      {
+        name: "Studies of Religion",
+        priority: "Highly Recommended",
+        syllabusTopics: "World religions · Beliefs and practices · Ethics",
+        syllabusJustification: "Studies of Religion (NESA) provides 'understanding of diverse religious practices, dietary requirements and cultural obligations'. Flight attendants regularly accommodate passengers' religious dietary needs, prayer times and cultural customs — this knowledge prevents misunderstandings and enables respectful service.",
+        skills: ["Religious literacy", "Cultural sensitivity", "Ethical awareness"],
+      },
+      {
+        name: "Geography",
+        priority: "Recommended",
+        syllabusTopics: "Global change · Human geography · Spatial awareness",
+        syllabusJustification: "Geography (NESA) develops 'understanding of global human and physical environments'. Flight attendants working international routes benefit from knowledge of the destinations they serve — geography, climate, culture and local customs — enabling richer interaction with passengers.",
+        skills: ["Global awareness", "Spatial thinking", "Environmental knowledge"],
+      },
+    ]
+  },
+  {
+    id: "travel-agent",
+    title: "Travel Agent / Tourism Manager",
+    sector: "Aviation & Travel",
+    icon: "🗺️",
+    desc: "Design, sell and manage travel experiences including flights, accommodation, tours and packages for individuals and groups.",
+    uniPath: "Certificate III/IV in Travel and Tourism · Bachelor of Business (Tourism) or Bachelor of Tourism Management · 2–3 years",
+    subjects: [
+      {
+        name: "Geography",
+        priority: "Essential",
+        syllabusTopics: "Changing places · Global change · Human–environment interactions · Tourism",
+        syllabusJustification: "Geography (NESA) requires students to 'investigate the characteristics of places and the relationships between people and environments'. Travel agents must have deep knowledge of global destinations, climates, physical features and how tourism shapes places — all core geographic content.",
+        skills: ["Spatial knowledge", "Global awareness", "Environmental understanding", "Research skills"],
+      },
+      {
+        name: "Modern History",
+        priority: "Highly Recommended",
+        syllabusTopics: "National studies · Cultural change · Significance of places",
+        syllabusJustification: "Modern History (NESA) develops 'understanding of the historical significance of places, events and people'. Travel agents designing heritage and cultural tours — from ANZAC battlefields to ancient sites — require historical knowledge to provide informed, meaningful experiences to clients.",
+        skills: ["Historical knowledge", "Research skills", "Narrative communication"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Recommended",
+        syllabusTopics: "Multiculturalism · Beliefs and ideologies · Popular culture",
+        syllabusJustification: "Society & Culture (NESA) develops 'cross-cultural understanding and the ability to analyse cultural practices'. Travel agents advise clients on cultural customs, etiquette and expectations — this cultural literacy is essential for responsible and respectful tourism advice.",
+        skills: ["Cross-cultural communication", "Social analysis", "Research methods"],
+      },
+    ]
+  },
+
+  // ── SCIENCE & FORENSICS ────────────────────────────────────
+  {
+    id: "forensic-scientist",
+    title: "Forensic Scientist",
+    sector: "Law & Justice",
+    icon: "🔬",
+    desc: "Collect, analyse and interpret physical evidence from crime scenes to assist police investigations and court proceedings.",
+    uniPath: "Bachelor of Forensic Science or Bachelor of Science (Forensic Chemistry / Biology) · 3–4 years · NSW Police Forensic Services Group",
+    subjects: [
+      {
+        name: "Legal Studies",
+        priority: "Essential",
+        syllabusTopics: "Crime · Criminal investigation process · Evidence and the courts",
+        syllabusJustification: "Legal Studies (NESA) requires students to 'examine the criminal investigation process and the rules of evidence'. Forensic scientists must understand how evidence is collected, documented and presented in court — the legal admissibility requirements they work within are directly taught in this syllabus.",
+        skills: ["Legal reasoning", "Evidence analysis", "Criminal law", "Ethical practice"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Highly Recommended",
+        syllabusTopics: "Social research methods · Beliefs and ideologies · Social change",
+        syllabusJustification: "Society & Culture (NESA) develops 'a range of research methodologies and the ability to analyse data objectively'. Forensic science is fundamentally applied research — systematic data collection, hypothesis testing and objective reporting are skills directly mirrored in Society & Culture's research focus.",
+        skills: ["Research methodology", "Objective analysis", "Report writing", "Data interpretation"],
+      },
+      {
+        name: "Modern History",
+        priority: "Recommended",
+        syllabusTopics: "Change and continuity · Powers and authority · Significance",
+        syllabusJustification: "Modern History (NESA) trains students to 'evaluate and interpret evidence from a range of sources'. The historian's critical approach to sources — questioning reliability, cross-referencing, identifying bias — directly parallels the forensic scientist's approach to physical and documentary evidence.",
+        skills: ["Evidence evaluation", "Critical analysis", "Objectivity"],
+      },
+    ]
+  },
+
+  // ── REAL ESTATE ────────────────────────────────────────────
+  {
+    id: "real-estate",
+    title: "Real Estate Agent / Property Manager",
+    sector: "Business & Finance",
+    icon: "🏠",
+    desc: "Help clients buy, sell, lease and manage residential or commercial properties, negotiating deals and managing client relationships.",
+    uniPath: "Certificate of Registration (NSW Fair Trading) · Real Estate Licence (3–4 units of study) · Bachelor of Property Economics valued",
+    subjects: [
+      {
+        name: "Business Studies",
+        priority: "Essential",
+        syllabusTopics: "Business environments · Marketing · Financial management · Legal obligations",
+        syllabusJustification: "Business Studies (NESA) requires students to 'analyse the role of marketing and financial management in business success'. Real estate is a sales and marketing-driven industry — agents use property marketing, pricing strategy, negotiation and financial assessment skills that directly mirror Business Studies content.",
+        skills: ["Marketing strategy", "Financial analysis", "Business planning", "Negotiation"],
+      },
+      {
+        name: "Economics",
+        priority: "Highly Recommended",
+        syllabusTopics: "Markets · Supply and demand · Financial sector · Economic policies",
+        syllabusJustification: "Economics (NESA) requires students to 'examine how markets operate and how government policy influences them'. Property markets are driven by interest rates, supply and demand, zoning policy and macroeconomic conditions — all directly taught in Economics.",
+        skills: ["Market analysis", "Economic reasoning", "Financial literacy", "Policy understanding"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Rights and responsibilities · Consumer protection · Contract law",
+        syllabusJustification: "Legal Studies (NESA) develops understanding of 'the legal rights and responsibilities of individuals in commercial relationships'. Real estate agents work within a complex legal framework — contracts, disclosure obligations, tenancy law and agency agreements — requiring this legal literacy.",
+        skills: ["Legal reasoning", "Contract understanding", "Rights analysis"],
+      },
+      {
+        name: "Geography",
+        priority: "Recommended",
+        syllabusTopics: "Changing places · Urban environments · Human–environment interactions",
+        syllabusJustification: "Geography (NESA) develops 'understanding of how places are shaped by human activity and environmental factors'. Real estate agents advise clients on location value, neighbourhood change and urban development — this geographic and spatial thinking is a genuine professional advantage.",
+        skills: ["Spatial analysis", "Place knowledge", "Urban understanding"],
+      },
+    ]
+  },
+
+  // ── POLITICS & GOVERNMENT ──────────────────────────────────
+  {
+    id: "political-scientist",
+    title: "Political Scientist",
+    sector: "Education & Research",
+    icon: "🏛️",
+    desc: "Study political systems, governance, public policy and international relations through research, academia and advisory roles.",
+    uniPath: "Bachelor of Arts (Politics / Government) → Honours → PhD · Or Bachelor of Politics, Philosophy and Economics",
+    subjects: [
+      {
+        name: "Modern History",
+        priority: "Essential",
+        syllabusTopics: "Powers and authority · National studies · World order · Political change",
+        syllabusJustification: "Modern History (NESA) requires students to 'investigate the nature of political power and authority in the 20th and 21st centuries'. Political science is the academic study of exactly these processes — understanding how governments rise, fall and exercise power is the foundation of the discipline.",
+        skills: ["Political analysis", "Source evaluation", "Argument construction", "Geopolitical reasoning"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Essential",
+        syllabusTopics: "Law reform · International human rights law · Government and law",
+        syllabusJustification: "Legal Studies (NESA) develops 'understanding of the relationship between law, government and political institutions'. Political scientists study constitutions, legislation and international law — the legal knowledge built in this subject is directly applicable to political and comparative government research.",
+        skills: ["Legal analysis", "Policy evaluation", "Rights frameworks"],
+      },
+      {
+        name: "Economics",
+        priority: "Highly Recommended",
+        syllabusTopics: "Role of government · Economic policies · Global economy",
+        syllabusJustification: "Economics (NESA) requires students to 'evaluate the effectiveness of economic policies'. Political economy — the study of how political decisions shape economic outcomes — is a major subfield of political science, and this quantitative literacy is increasingly valued.",
+        skills: ["Policy evaluation", "Economic analysis", "Quantitative reasoning"],
+      },
+      {
+        name: "History Extension",
+        priority: "Recommended",
+        syllabusTopics: "Schools of historical thought · Independent research · Argument and evidence",
+        syllabusJustification: "History Extension (NESA) develops 'the skills of independent research and sophisticated argumentation'. Political scientists must produce original research — the thesis-construction and source-evaluation skills from History Extension directly prepare students for Honours and PhD research.",
+        skills: ["Independent research", "Thesis development", "Analytical writing"],
+      },
+    ]
+  },
+  {
+    id: "council-worker",
+    title: "Local Government / Council Officer",
+    sector: "Social & Community",
+    icon: "🏢",
+    desc: "Deliver local government services across areas including planning, environment, community services, events, infrastructure and governance.",
+    uniPath: "Certificate IV in Local Government · Bachelor of Business, Planning, Arts or Social Work · Wide range of entry pathways",
+    subjects: [
+      {
+        name: "Geography",
+        priority: "Essential",
+        syllabusTopics: "Changing places · Human–environment interactions · Urban planning · Environmental management",
+        syllabusJustification: "Geography (NESA) develops 'understanding of how people and environments interact and how places change over time'. Local councils manage land use, environmental planning, infrastructure and community spaces — the geographic and spatial skills from this syllabus underpin almost every council department.",
+        skills: ["Spatial analysis", "Environmental evaluation", "Fieldwork", "Report writing"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Rights and responsibilities · Law reform · Government and the individual",
+        syllabusJustification: "Legal Studies (NESA) develops 'understanding of how law operates at local, state and federal levels'. Council officers administer local environmental plans, development applications and by-laws — they must understand the legal frameworks within which they operate.",
+        skills: ["Legal reasoning", "Rights analysis", "Policy understanding"],
+      },
+      {
+        name: "Business Studies",
+        priority: "Recommended",
+        syllabusTopics: "Business planning · Human resources · Operations management",
+        syllabusJustification: "Business Studies (NESA) develops 'understanding of how organisations plan, manage and evaluate operations'. Local councils are large, complex organisations — officers in corporate services, finance or HR roles directly apply business management knowledge.",
+        skills: ["Business planning", "Operational thinking", "Financial literacy"],
+      },
+      {
+        name: "Aboriginal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Land and country · Self-determination · Cultural heritage",
+        syllabusJustification: "Aboriginal Studies (NESA) develops 'understanding of the significance of Country and cultural heritage to Aboriginal communities'. Council officers working in heritage, planning or community services must engage respectfully with Aboriginal Land Councils and understand cultural heritage obligations.",
+        skills: ["Cultural competency", "Community engagement", "Heritage understanding"],
+      },
+    ]
+  },
+  {
+    id: "youth-community",
+    title: "Youth & Community Services Worker",
+    sector: "Social & Community",
+    icon: "🌟",
+    desc: "Support young people and community members through programs in youth work, outreach, disability support, housing and crisis intervention.",
+    uniPath: "Certificate III/IV in Community Services · Bachelor of Youth Work or Social Work · Diploma of Community Services",
+    subjects: [
+      {
+        name: "Society & Culture",
+        priority: "Essential",
+        syllabusTopics: "Personal and social identity · Social change · Beliefs and ideologies · Multiculturalism",
+        syllabusJustification: "Society & Culture (NESA) develops 'understanding of the social, cultural and environmental contexts that shape young people's lives'. Youth workers must understand identity development, peer influence, family structures and community belonging — all central to this syllabus.",
+        skills: ["Social research methods", "Sociological thinking", "Cultural understanding", "Community analysis"],
+      },
+      {
+        name: "Aboriginal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Identity · Community wellbeing · Self-determination · Contemporary challenges",
+        syllabusJustification: "Aboriginal Studies (NESA) addresses 'the social and cultural challenges facing Aboriginal young people today'. Given the over-representation of Aboriginal youth in contact with community services, culturally safe youth work practice demands the foundational understanding this subject provides.",
+        skills: ["Cultural safety", "Community ethics", "Participatory engagement"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Young people and the law · Rights and responsibilities · Crime",
+        syllabusJustification: "Legal Studies (NESA) covers 'the legal rights of young people and the operation of the Children's Court'. Youth workers regularly support clients navigating the justice system — understanding young people's legal rights, diversion programs and care orders is a practical professional requirement.",
+        skills: ["Legal literacy", "Rights analysis", "Ethical reasoning"],
+      },
+      {
+        name: "Studies of Religion",
+        priority: "Recommended",
+        syllabusTopics: "Beliefs and practices · Ethics · Religion in Australia · Wellbeing",
+        syllabusJustification: "Studies of Religion (NESA) develops 'understanding of the diverse beliefs and values that shape community life'. Many community services are faith-based, and youth workers support clients for whom religion and spirituality are central to identity — this religious literacy strengthens relational practice.",
+        skills: ["Cultural sensitivity", "Ethical reasoning", "Interpersonal understanding"],
+      },
+    ]
+  },
+
+  // ── TECHNOLOGY & TRADES ────────────────────────────────────
+  {
+    id: "it-professional",
+    title: "IT Professional / Software Developer",
+    sector: "Technology & Trades",
+    icon: "💻",
+    desc: "Design, build and maintain software systems, networks, databases and digital solutions for businesses and governments.",
+    uniPath: "Bachelor of Computer Science, Software Engineering or Information Technology · 3 years · Bootcamp pathways also available",
+    subjects: [
+      {
+        name: "Business Studies",
+        priority: "Essential",
+        syllabusTopics: "Business environments · Operations management · Technology and business · E-commerce",
+        syllabusJustification: "Business Studies (NESA) requires students to 'examine the impact of technology on business operations and e-commerce strategies'. IT professionals who understand the business context of the systems they build — user needs, operational workflows, commercial constraints — are far more effective than those who focus on code alone.",
+        skills: ["Business analysis", "Systems thinking", "Operational understanding", "Problem solving"],
+      },
+      {
+        name: "Economics",
+        priority: "Highly Recommended",
+        syllabusTopics: "Markets · Global economy · Technology and economic change",
+        syllabusJustification: "Economics (NESA) addresses 'the impact of technology on economic growth and market structures'. IT professionals operating in tech startups, product companies or consulting must understand market forces, digital disruption economics and the regulatory environment shaping their industry.",
+        skills: ["Economic reasoning", "Market analysis", "Policy understanding", "Data literacy"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Recommended",
+        syllabusTopics: "The individual and technology · Privacy law · Cybercrime · Intellectual property",
+        syllabusJustification: "Legal Studies (NESA) includes a dedicated study of 'the individual and technology', covering privacy, cybercrime, surveillance and intellectual property. IT professionals working in cybersecurity, data systems or software development must understand the legal framework governing digital life.",
+        skills: ["Legal awareness", "Privacy understanding", "Ethical reasoning", "Rights analysis"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Recommended",
+        syllabusTopics: "Social change · Popular culture · Technology and society",
+        syllabusJustification: "Society & Culture (NESA) develops 'understanding of how technology shapes social interaction and cultural change'. IT professionals designing user-facing products benefit greatly from understanding how technology affects human behaviour, community and identity.",
+        skills: ["Social analysis", "User empathy", "Cultural awareness", "Research methods"],
+      },
+    ]
+  },
+  {
+    id: "cybersecurity",
+    title: "Cybersecurity Analyst",
+    sector: "Technology & Trades",
+    icon: "🔐",
+    desc: "Protect organisations' digital infrastructure from cyber threats, breaches and attacks by monitoring, testing and securing systems.",
+    uniPath: "Bachelor of Cybersecurity or Computer Science · 3 years · CompTIA Security+, CISSP certifications valued",
+    subjects: [
+      {
+        name: "Legal Studies",
+        priority: "Essential",
+        syllabusTopics: "The individual and technology · Cybercrime · Privacy law · Rights and responsibilities",
+        syllabusJustification: "Legal Studies (NESA) dedicates a full topic to 'the individual and technology', examining cybercrime legislation, digital privacy rights and enforcement. Cybersecurity professionals must understand the legal definitions of unauthorised access, data breaches and the regulatory obligations organisations face — this is direct vocational preparation.",
+        skills: ["Legal reasoning", "Cybercrime law", "Privacy frameworks", "Ethical practice"],
+      },
+      {
+        name: "Modern History",
+        priority: "Recommended",
+        syllabusTopics: "Powers and authority · Change and continuity · Technology and society",
+        syllabusJustification: "Modern History (NESA) trains students to 'analyse the exercise of power in the modern world'. Cybersecurity is increasingly a domain of geopolitics — state-sponsored attacks, information warfare and digital espionage require the geopolitical awareness this subject develops.",
+        skills: ["Analytical thinking", "Geopolitical awareness", "Critical evaluation"],
+      },
+      {
+        name: "Business Studies",
+        priority: "Recommended",
+        syllabusTopics: "Business environments · Risk management · Technology and business",
+        syllabusJustification: "Business Studies (NESA) requires students to 'examine risk management strategies in business'. Cybersecurity professionals must communicate risk to non-technical business leaders — the business literacy and risk management frameworks from this subject enable that crucial translation.",
+        skills: ["Risk analysis", "Business communication", "Operational understanding"],
+      },
+    ]
+  },
+  {
+    id: "small-business-owner",
+    title: "Small Business Owner / Entrepreneur",
+    sector: "Technology & Trades",
+    icon: "🏪",
+    desc: "Start, own and operate a small business — from a local café to a trades business or online store — managing all aspects of the enterprise.",
+    uniPath: "No specific degree required · Certificate IV in Small Business Management · Bachelor of Business or Commerce provides strong foundation · Many pathways via apprenticeships and trades",
+    subjects: [
+      {
+        name: "Business Studies",
+        priority: "Essential",
+        syllabusTopics: "Business planning · Financial management · Marketing · Human resources · Operations · Legal obligations",
+        syllabusJustification: "Business Studies (NESA) is the most directly relevant HSC subject for small business ownership. The syllabus covers 'the nature of business, business planning, marketing, financial management and human resources' — a small business owner must personally manage all of these functions, making this subject a direct simulation of business ownership.",
+        skills: ["Business planning", "Financial management", "Marketing strategy", "Operational management", "HR basics"],
+      },
+      {
+        name: "Economics",
+        priority: "Highly Recommended",
+        syllabusTopics: "Markets · Supply and demand · Consumers and businesses · Financial sector",
+        syllabusJustification: "Economics (NESA) requires students to 'examine how markets operate and how businesses respond to economic conditions'. Small business owners must understand pricing, competition, consumer behaviour and cash flow in relation to broader economic cycles — directly taught through this syllabus.",
+        skills: ["Market analysis", "Economic reasoning", "Financial literacy", "Consumer understanding"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Rights and responsibilities · Consumer law · Employment law · Business regulation",
+        syllabusJustification: "Legal Studies (NESA) develops 'understanding of the legal rights and responsibilities of individuals in commercial relationships'. Small business owners navigate consumer law, employment contracts, leasing agreements and Fair Work obligations every day — legal literacy is a genuine operational requirement.",
+        skills: ["Legal awareness", "Contract understanding", "Rights analysis"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Recommended",
+        syllabusTopics: "Social change · Popular culture · Community · Research methods",
+        syllabusJustification: "Society & Culture (NESA) develops 'the ability to research and understand social trends and community needs'. Successful small businesses are responsive to their local community — understanding what customers value and how social trends shape demand is an ongoing business advantage.",
+        skills: ["Market research", "Social awareness", "Community understanding"],
+      },
+    ]
+  },
+  {
+    id: "tradesperson",
+    title: "Tradesperson (Plumber, Electrician, Builder etc.)",
+    sector: "Technology & Trades",
+    icon: "🔧",
+    desc: "Complete skilled trade work in construction, electrical, plumbing, carpentry or other vocational fields — often running your own business or contracts.",
+    uniPath: "Australian Apprenticeship (3–4 years) · Certificate III in relevant trade · Trades Recognition Australia for overseas quals · Many tradies progress to running their own business",
+    subjects: [
+      {
+        name: "Business Studies",
+        priority: "Essential",
+        syllabusTopics: "Business planning · Financial management · Marketing · Legal obligations · Operations",
+        syllabusJustification: "Business Studies (NESA) is directly relevant because most experienced tradespersons run their own business or contracting operation. The syllabus covers 'quoting, invoicing, business planning, insurance obligations and marketing' — the exact skills needed to operate as a sole trader or small contractor.",
+        skills: ["Business planning", "Financial management", "Quoting and pricing", "Marketing basics"],
+      },
+      {
+        name: "Legal Studies",
+        priority: "Highly Recommended",
+        syllabusTopics: "Rights and responsibilities · Employment law · Consumer protection · Contracts",
+        syllabusJustification: "Legal Studies (NESA) develops 'understanding of employment rights, consumer law and contractual obligations'. Tradespersons work with contracts, warranties, workplace safety law (WHS Act) and Fair Work provisions daily — this legal literacy protects both the worker and their clients.",
+        skills: ["Legal awareness", "Contract understanding", "WHS awareness", "Rights analysis"],
+      },
+      {
+        name: "Economics",
+        priority: "Recommended",
+        syllabusTopics: "Labour markets · Markets · Supply and demand",
+        syllabusJustification: "Economics (NESA) examines 'the labour market and the factors affecting wages and employment'. Understanding economic cycles that drive construction booms and downturns helps tradespersons plan their business, manage cash flow and time major investments strategically.",
+        skills: ["Labour market awareness", "Economic reasoning", "Financial planning"],
+      },
+      {
+        name: "Geography",
+        priority: "Recommended",
+        syllabusTopics: "Changing places · Urban environments · Infrastructure",
+        syllabusJustification: "Geography (NESA) develops 'understanding of urban growth, infrastructure and how places change over time'. Tradespersons working in construction benefit from understanding population growth trends, urban development zones and infrastructure investment cycles that drive demand for their services.",
+        skills: ["Urban awareness", "Spatial thinking", "Environmental understanding"],
+      },
+    ]
+  },
+
+  // ── EARTH & ENVIRONMENTAL SCIENCE ─────────────────────────
+  {
+    id: "geologist",
+    title: "Geologist",
+    sector: "Environment & Science",
+    icon: "🪨",
+    desc: "Study the Earth's structure, composition and history to support mining, energy, construction, environmental management and disaster preparedness.",
+    uniPath: "Bachelor of Science (Geology / Earth Sciences) · 3 years · Honours often required for professional roles · AIG membership",
+    subjects: [
+      {
+        name: "Geography",
+        priority: "Essential",
+        syllabusTopics: "Biophysical interactions · Landscape processes · Environmental change · Fieldwork",
+        syllabusJustification: "Geography (NESA) requires students to 'investigate biophysical processes including tectonic activity, erosion, weathering and landscape formation'. These are foundational geological concepts — students who study Geography develop the earth systems thinking, fieldwork skills and environmental analysis methods that geology builds upon.",
+        skills: ["Fieldwork and data collection", "Environmental systems analysis", "Landscape interpretation", "Spatial analysis"],
+      },
+      {
+        name: "Ancient History",
+        priority: "Recommended",
+        syllabusTopics: "Investigating the past · Use of evidence · Interpreting incomplete records",
+        syllabusJustification: "Ancient History (NESA) trains students to 'construct knowledge from fragmentary, incomplete and contested evidence'. Geologists working from rock cores, fossil records and seismic data face the same epistemological challenge — reconstructing deep history from physical traces. This interpretive discipline translates directly.",
+        skills: ["Evidence interpretation", "Analytical reasoning", "Working with incomplete data"],
+      },
+      {
+        name: "Aboriginal Studies",
+        priority: "Recommended",
+        syllabusTopics: "Land and country · Cultural heritage · Environmental knowledge",
+        syllabusJustification: "Aboriginal Studies (NESA) develops 'understanding of the deep connection between Aboriginal peoples and Country, including geological and environmental knowledge'. Geologists working on projects that affect Country — mining, gas, construction — are legally required to consult with Traditional Owners. This cultural foundation is essential for ethical professional practice.",
+        skills: ["Cultural competency", "Community engagement", "Heritage understanding"],
+      },
+      {
+        name: "Economics",
+        priority: "Recommended",
+        syllabusTopics: "Global economy · Resource markets · Role of government",
+        syllabusJustification: "Economics (NESA) examines 'the role of resource markets and commodity prices in the Australian economy'. Australia's economy is significantly driven by mineral resources — geologists working in mining and energy sectors benefit from understanding how global commodity markets and government resource policy affect project viability.",
+        skills: ["Market awareness", "Economic reasoning", "Policy understanding"],
+      },
+    ]
+  },
+  {
+    id: "meteorologist",
+    title: "Meteorologist",
+    sector: "Environment & Science",
+    icon: "🌦️",
+    desc: "Study and forecast atmospheric conditions to support weather services, aviation, agriculture, emergency management and climate research.",
+    uniPath: "Bachelor of Science (Meteorology / Atmospheric Science) or Bachelor of Environmental Science · 3–4 years · Bureau of Meteorology graduate program",
+    subjects: [
+      {
+        name: "Geography",
+        priority: "Essential",
+        syllabusTopics: "Biophysical interactions · Atmosphere and climate · Global change · Environmental data",
+        syllabusJustification: "Geography (NESA) is the most directly relevant HSIE subject for meteorology. The syllabus requires students to 'investigate atmospheric processes, climate systems and the impacts of climate change' — the exact content domain of meteorology. Students develop data interpretation, weather pattern analysis and climate modelling skills through this subject.",
+        skills: ["Climate analysis", "Atmospheric systems understanding", "Data interpretation", "Fieldwork", "Environmental evaluation"],
+      },
+      {
+        name: "Society & Culture",
+        priority: "Highly Recommended",
+        syllabusTopics: "Environment · Social change · Research methods · Global change",
+        syllabusJustification: "Society & Culture (NESA) includes 'the environment as a social and cultural force and the study of human responses to environmental change'. Meteorologists increasingly communicate climate science to the public and policymakers — this subject develops the social research skills and communication frameworks needed for effective science communication.",
+        skills: ["Research methodology", "Public communication", "Social analysis", "Report writing"],
+      },
+      {
+        name: "Modern History",
+        priority: "Recommended",
+        syllabusTopics: "Global change · Technology and society · International cooperation",
+        syllabusJustification: "Modern History (NESA) develops 'understanding of how international institutions emerge in response to global challenges'. The history of international climate science — from the IPCC to the Paris Agreement — is a modern history of cooperation and conflict that meteorologists working in policy or research should understand.",
+        skills: ["Global awareness", "Analytical thinking", "Policy context"],
+      },
+    ]
+  },
+];
+
+// State
+let activeFilter = 'all';
+let activeCareer = null;
+let searchTerm = '';
+
+function getVisible() {
+  return careers.filter(c => {
+    const matchFilter = activeFilter === 'all' || c.sector === activeFilter;
+    const q = searchTerm.toLowerCase();
+    const matchSearch = !q ||
+      c.title.toLowerCase().includes(q) ||
+      c.sector.toLowerCase().includes(q) ||
+      c.desc.toLowerCase().includes(q) ||
+      c.subjects.some(s => s.name.toLowerCase().includes(q));
+    return matchFilter && matchSearch;
+  });
+}
+
+function setFilter(f, btn) {
+  activeFilter = f;
+  activeCareer = null;
+  document.getElementById('detail-panel').classList.remove('open');
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+
+function doSearch(val) {
+  searchTerm = val;
+  activeCareer = null;
+  document.getElementById('detail-panel').classList.remove('open');
+  renderGrid();
+}
+
+function renderGrid() {
+  const visible = getVisible();
+  const grid = document.getElementById('careers-grid');
+  const nr = document.getElementById('no-results');
+  const count = document.getElementById('careers-count');
+
+  if (!visible.length) {
+    grid.innerHTML = '';
+    nr.style.display = 'block';
+    count.innerHTML = `No careers found`;
+    return;
+  }
+  nr.style.display = 'none';
+
+  const filterLabel = activeFilter === 'all' ? 'all careers' : `<strong>${activeFilter}</strong>`;
+  const searchLabel = searchTerm ? ` matching "<strong>${searchTerm}</strong>"` : '';
+  count.innerHTML = `Showing <strong>${visible.length}</strong> ${filterLabel}${searchLabel} — click any card to explore`;
+
+  grid.innerHTML = visible.map(c => {
+    const sc = sectorColors[c.sector] || '#888';
+    const isActive = activeCareer === c.id;
+    return `
+      <div class="career-card ${isActive ? 'active' : ''}" 
+           id="card-${c.id}"
+           onclick="selectCareer('${c.id}')"
+           style="${isActive ? `border-color: ${sc};` : ''}">
+        <span class="card-arrow">${isActive ? '▾' : '›'}</span>
+        <div class="card-sector">
+          <span class="sector-dot" style="background: ${sc};"></span>
+          <span style="color: ${sc};">${c.sector}</span>
+        </div>
+        <div class="card-title">${c.icon} ${c.title}</div>
+        <div class="card-desc">${c.desc}</div>
+        <div class="card-subjects">
+          ${c.subjects.map(s => {
+            const sm = subjectMeta[s.name] || {};
+            return `<span class="subj-tag" style="background:${sm.bg};color:${sm.text};border-color:${sm.color};">${sm.icon || ''} ${s.name}</span>`;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectCareer(id) {
+  if (activeCareer === id) {
+    activeCareer = null;
+    document.getElementById('detail-panel').classList.remove('open');
+    renderGrid();
+    return;
+  }
+  activeCareer = id;
+  renderGrid();
+  const c = careers.find(x => x.id === id);
+  renderDetail(c);
+  document.getElementById('detail-panel').classList.add('open');
+  setTimeout(() => {
+    document.getElementById('detail-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 60);
+}
+
+function renderDetail(c) {
+  const sc = sectorColors[c.sector] || '#888';
+  const panel = document.getElementById('detail-panel');
+  panel.innerHTML = `
+    <div class="detail-inner">
+      <div class="detail-hero">
+        <div class="hero-icon">${c.icon}</div>
+        <div>
+          <div class="hero-sector" style="color: ${sc};">${c.sector}</div>
+          <div class="hero-title">${c.title}</div>
+          <div class="hero-desc">${c.desc}</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="section-heading">University pathway</div>
+        <div class="uni-pathway">
+          <div class="arrow-wrap">🎓</div>
+          <div>
+            <div class="uni-path-title">${c.uniPath.split('·')[0]}</div>
+            <div class="uni-path-sub">${c.uniPath.split('·').slice(1).join('·').trim()}</div>
+          </div>
+        </div>
+
+        <div class="section-heading">HSIE subjects that prepare you — with NSW syllabus justification</div>
+        ${c.subjects.map(s => {
+          const sm = subjectMeta[s.name] || { color:'#888', bg:'#eee', text:'#333', icon:'' };
+          const pColor = s.priority === 'Essential' ? '#D4A853' : s.priority === 'Highly Recommended' ? '#3B8BD4' : '#888';
+          const pBg = s.priority === 'Essential' ? 'rgba(212,168,83,0.12)' : s.priority === 'Highly Recommended' ? 'rgba(59,139,212,0.12)' : 'rgba(136,136,136,0.1)';
+          return `
+            <div class="subject-justification">
+              <div class="sj-header" style="background: ${sm.bg};">
+                <span class="sj-icon">${sm.icon}</span>
+                <span class="sj-name" style="color: ${sm.text};">${s.name}</span>
+                <span class="sj-priority" style="color: ${pColor}; background: ${pBg}; border: 1px solid ${pColor}40;">${s.priority}</span>
+              </div>
+              <div class="sj-body">
+                <div class="sj-row">
+                  <div class="sj-box">
+                    <div class="sj-box-label">Relevant syllabus topics</div>
+                    <div class="sj-box-text">${s.syllabusTopics}</div>
+                  </div>
+                  <div class="sj-box">
+                    <div class="sj-box-label">Skills developed</div>
+                    <div class="skills-row">
+                      ${s.skills.map(sk => `<span class="skill-chip" style="background:${sm.bg};color:${sm.text};border-color:${sm.color};">${sk}</span>`).join('')}
+                    </div>
+                  </div>
+                </div>
+                <div class="syllabus-quote" style="border-color: ${sm.color};">
+                  <strong>NSW Syllabus justification (NESA)</strong>
+                  ${s.syllabusJustification}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+
+        <button class="close-btn" onclick="selectCareer('${c.id}')">Close ✕</button>
+      </div>
+    </div>
+  `;
+}
+
+renderGrid();
+</script>
+</body>
+</html>
